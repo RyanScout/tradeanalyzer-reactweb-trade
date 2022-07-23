@@ -2,11 +2,8 @@
  *
  */
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
 
 export default function TradeView({ itemState, appPrefs, onOption }) {
-  const nav = useNavigate();
-  const x = window.location.pathname;
 
   let automatedTradeTableRows1 = [];
   // fill latest tradestable

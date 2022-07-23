@@ -2,7 +2,6 @@
  *
  */
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
 import moment from "moment";
 
 export default function HistoricalAnalysisView({
@@ -11,8 +10,6 @@ export default function HistoricalAnalysisView({
   inputChange,
   onOption,
 }) {
-  const nav = useNavigate();
-  const x = window.location.pathname;
 
   let startTime = 1609507862;
   let endTime = 1640957462;

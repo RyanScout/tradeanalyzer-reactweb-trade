@@ -2,12 +2,9 @@
  *
  */
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
 import moment from "moment";
 
 export default function TradeDetailView({ itemState, appPrefs, onOption }) {
-  const nav = useNavigate();
-  const x = window.location.pathname;
 
   let automatedTradeTableRows1 = [];
   // fill latest tradestable

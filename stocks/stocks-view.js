@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 
 export default function StocksView({ itemState, amountState, appPrefs, inputStockChange, stockRequest, buyRequest, trailingStopOrder, inputAmountChange, onClick }) {
@@ -15,8 +14,6 @@ export default function StocksView({ itemState, amountState, appPrefs, inputStoc
 	if (amountState != null && amountState.test_field != null) {
 		amountValue = amountState.test_field;
 	}
-	const nav = useNavigate();
-	const x = window.location.pathname;
 
 	let stockBarTableRows = [];
 	// fill stock bar table

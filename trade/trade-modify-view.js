@@ -2,10 +2,6 @@
  *
  */
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
-import moment from "moment";
-import { element } from "prop-types";
-import { render } from "react-dom";
 
 export default function TradeModifyView({
   itemState,
@@ -15,8 +11,6 @@ export default function TradeModifyView({
   AutoComplete,
   Testform,
 }) {
-  const nav = useNavigate();
-  const x = window.location.pathname;
 
   let name = "";
   let symbol = "";
