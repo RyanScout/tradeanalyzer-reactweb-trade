@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 
 export default function DatabaseView({ onOption, itemState, inputChange }) {
-  let automatedTradeTableRows1 = [];
+  let automatedTradeTableRows1: JSX.Element[] = [];
   // fill latest tradestable
   if (
     itemState != null &&
@@ -10,7 +10,7 @@ export default function DatabaseView({ onOption, itemState, inputChange }) {
     itemState.items.length > 0
   ) {
     for (let i = 0; i < itemState.items.length; i++) {
-      let cells = [];
+      let cells: JSX.Element[] = [];
       cells.push(<td key="NAME">{itemState.items[i].name}</td>);
       cells.push(<td key="KEY">{itemState.items[i].technicalIndicatorKey}</td>);
       cells.push(

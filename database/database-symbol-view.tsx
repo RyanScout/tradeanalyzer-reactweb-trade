@@ -6,7 +6,24 @@ export default function DatabaseSymbolView({
   itemState,
   inputChange,
 }) {
-  let automatedTradeTableRows1 = [];
+
+  type TechnicalIndicator = {
+    id: number;
+    flashed: number;
+    checked: number;
+
+    symbol: string;
+
+    updating: boolean;
+
+    effectiveDetails: any[];
+  };
+
+  type TechnicalIndicatorDetail = {
+
+  };
+
+  let automatedTradeTableRows1: any[] = [];
   // fill latest tradestable
   if (
     itemState != null &&
@@ -14,11 +31,15 @@ export default function DatabaseSymbolView({
     itemState.item.technicalIndicators != null &&
     itemState.item.technicalIndicators.length > 0
   ) {
-    let technicalIndicators = itemState.item.technicalIndicators.slice();
-    technicalIndicators.sort((a, b) => a.symbol.localeCompare(b.symbol));
+    let technicalIndicators: TechnicalIndicator[] = itemState.item.technicalIndicators.slice();
+    technicalIndicators.sort((a, b) => {
+      const symbolA: string = a.symbol;
+      const symbolB: string = b.symbol;
+      return symbolA.localeCompare(symbolB);
+    });
 
     for (let i = 0; i < technicalIndicators.length; i++) {
-      let technicalIndicator = technicalIndicators[i];
+      let technicalIndicator: TechnicalIndicator = technicalIndicators[i];
 
       if (technicalIndicator == null) {
         continue;
@@ -26,7 +47,7 @@ export default function DatabaseSymbolView({
 
       const [updating, setUpdating] = useState(technicalIndicator.updating);
 
-      let cells = [];
+      let cells: any[] = [];
       cells.push(<td key="SYMBOL">{technicalIndicator.symbol}</td>);
       cells.push(
         <td key="FLASH_PERCENT">
@@ -39,12 +60,12 @@ export default function DatabaseSymbolView({
         <td key="AVG_SUCCESS_PERCENT">
           {(() => {
             let total = 0.0;
-            technicalIndicator.details.forEach((detail) => {
+            technicalIndicator.effectiveDetails.forEach((detail) => {
               total += detail.successPercent;
             });
             return (
               "" +
-              Math.round((total / technicalIndicator.details.length) * 10) / 10
+              Math.round((total / technicalIndicator.effectiveDetails.length) * 10) / 10
             );
           })()}
         </td>

@@ -5,15 +5,23 @@ import React from "react";
 
 export default function TradeView({ itemState, appPrefs, onOption }) {
 
-  let automatedTradeTableRows1 = [];
+  let automatedTradeTableRows1: any[] = [];
   // fill latest tradestable
   if (
     itemState != null &&
     itemState.items != null &&
     itemState.items.length > 0
   ) {
+
+    let view: string = "";
+
+    if(itemState.view != null){
+      view = itemState.view;
+    }
+
+    
     for (let i = 0; i < itemState.items.length; i++) {
-      let cells = [];
+      let cells : any[] = [];
       cells.push(<td key="NAME">{itemState.items[i].name}</td>);
       cells.push(<td key="BUYCONDITION">{itemState.items[i].buyCondition}</td>);
       cells.push(

@@ -218,7 +218,6 @@ export default function DatabaseModifyView({
 
         {(() => {
           if (technicalIndicatorType === "GoldenCross") {
-            console.log(longSMAEvaluationDuration);
             return (
               <div>
                 <label htmlFor="shortSMAEvaluationDuration">
@@ -375,8 +374,10 @@ export default function DatabaseModifyView({
           }
         })()}
 
+        
+
         <div>
-          <label htmlFor="current Symbols">Current Symbols</label>
+          <label htmlFor="Current Symbols">Current Symbols</label>
           <ul>
             {(() => {
               let arr: any[] = [];
@@ -397,6 +398,7 @@ export default function DatabaseModifyView({
               }
               return arr;
             })()}
+
           </ul>
         </div>
       </div>
