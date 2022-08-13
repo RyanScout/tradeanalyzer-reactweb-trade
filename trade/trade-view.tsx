@@ -4,46 +4,41 @@
 import React from "react";
 
 export default function TradeView({ itemState, appPrefs, onOption }) {
-
   let automatedTradeTableRows1: any[] = [];
   // fill latest tradestable
   if (
-    itemState != null &&
-    itemState.items != null &&
+    itemState !== null &&
+    itemState.items !== undefined &&
     itemState.items.length > 0
   ) {
+    type Trade = {
+      name: string;
+      rawBuyCondition: string;
+      rawSellCondition: string;
+      budget: number;
+      equity: number;
+      tradeDetails: any[];
+      status: "Running" | "Not Running";
+    };
 
-    let view: string = "";
-
-    if(itemState.view != null){
-      view = itemState.view;
-    }
-
-    
     for (let i = 0; i < itemState.items.length; i++) {
-      let cells : any[] = [];
-      cells.push(<td key="NAME">{itemState.items[i].name}</td>);
-      cells.push(<td key="BUYCONDITION">{itemState.items[i].buyCondition}</td>);
-      cells.push(
-        <td key="SELLCONDITION">{itemState.items[i].sellCondition}</td>
-      );
+      const trade: Trade = itemState.items[i];
+
+      let cells: any[] = [];
+      cells.push(<td key="NAME">{trade.name}</td>);
+      cells.push(<td key="BUYCONDITION">{trade.rawBuyCondition}</td>);
+      cells.push(<td key="SELLCONDITION">{trade.rawSellCondition}</td>);
       cells.push(
         <td key="PROFIT">
-          {Math.round(
-            ((itemState.items[i].totalValue - itemState.items[i].budget) /
-              itemState.items[i].budget) *
-              1000
-          ) / 10}
+          {Math.round(((trade.equity - trade.budget) / trade.budget) * 1000) /
+            10}
           %
         </td>
       );
       cells.push(
         <td key="CONTROL">
           {(() => {
-            if (
-              itemState.items[i].tradeDetails == null ||
-              itemState.items[i].tradeDetails.length == 0
-            ) {
+            if (trade.tradeDetails == null || trade.tradeDetails.length == 0) {
               return 0;
             }
             function compare(a, b) {
@@ -68,35 +63,33 @@ export default function TradeView({ itemState, appPrefs, onOption }) {
           %
         </td>
       );
-      cells.push(<td key="STATUS">{itemState.items[i].status}</td>);
+      cells.push(<td key="STATUS">{trade.status}</td>);
       cells.push(
         <td key="MODIFY">
           <i
             className="fa fa-edit fa-1"
             title="Modify"
-            onClick={() => onOption("MODIFY", itemState.items[i])}
+            onClick={() => onOption("MODIFY", trade)}
           ></i>{" "}
           <i
             className="fa fa-clipboard fa-1"
             title="Historical_Analysis"
-            onClick={() =>
-              onOption("HISTORICAL_ANALYSIS_VIEW", itemState.items[i])
-            }
+            onClick={() => onOption("HISTORICAL_ANALYSIS_VIEW", trade)}
           ></i>{" "}
           <i
             className="fa fa-solid fa-bars"
             title="Modify"
-            onClick={() => onOption("TRADE_DETAIL_VIEW", itemState.items[i])}
+            onClick={() => onOption("TRADE_DETAIL_VIEW", trade)}
           ></i>{" "}
           <i
             className="fa fas fa-chart-bar"
             title="Graph"
-            onClick={() => onOption("TRADE_GRAPH_VIEW", itemState.items[i])}
+            onClick={() => onOption("TRADE_GRAPH_VIEW", trade)}
           ></i>{" "}
           <i
             className="fa fa-trash fa-1"
             title="Delete"
-            onClick={() => onOption("DELETE", itemState.items[i])}
+            onClick={() => onOption("DELETE", trade)}
           ></i>
         </td>
       );
@@ -109,6 +102,7 @@ export default function TradeView({ itemState, appPrefs, onOption }) {
       </tr>
     );
   }
+
   let automatedTradeTableBody1 = <tbody>{automatedTradeTableRows1}</tbody>;
 
   return (

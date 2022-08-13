@@ -2,10 +2,6 @@
  *
  */
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
-import moment from "moment";
-import { element } from "prop-types";
-import { render } from "react-dom";
 
 export default function DatabaseModifyView({
   itemState,
@@ -28,7 +24,7 @@ export default function DatabaseModifyView({
   let ubbEvaluationDuration: number = 0;
   let standardDeviations: number = 0;
   let longSMAEvaluationDuration: number = 0;
-  let symbols: string[] = [];
+  let effectiveSymbols: string[] = [];
 
   if (itemState.item != null) {
     if (
@@ -55,28 +51,16 @@ export default function DatabaseModifyView({
     ) {
       technicalIndicatorType = itemState.item.technicalIndicatorType;
     }
-    if (
-      itemState.item.shortSMAEvaluationDuration != null &&
-      typeof itemState.item.shortSMAEvaluationDuration === "number"
-    ) {
+    if (itemState.item.shortSMAEvaluationDuration != null) {
       shortSMAEvaluationDuration = itemState.item.shortSMAEvaluationDuration;
     }
-    if (
-      itemState.item.longSMAEvaluationDuration != null &&
-      typeof itemState.item.longSMAEvaluationDuration === "number"
-    ) {
+    if (itemState.item.longSMAEvaluationDuration != null) {
       longSMAEvaluationDuration = itemState.item.longSMAEvaluationDuration;
     }
-    if (
-      itemState.item.lbbEvaluationDuration != null &&
-      typeof itemState.item.lbbEvaluationDuration === "number"
-    ) {
+    if (itemState.item.lbbEvaluationDuration != null) {
       lbbEvaluationDuration = itemState.item.lbbEvaluationDuration;
     }
-    if (
-      itemState.item.ubbEvaluationDuration != null &&
-      typeof itemState.item.ubbEvaluationDuration === "number"
-    ) {
+    if (itemState.item.ubbEvaluationDuration != null) {
       ubbEvaluationDuration = itemState.item.ubbEvaluationDuration;
     }
     if (
@@ -85,8 +69,8 @@ export default function DatabaseModifyView({
     ) {
       standardDeviations = itemState.item.standardDeviations;
     }
-    if (itemState.item.symbols != null) {
-      symbols = itemState.item.symbols.slice();
+    if (itemState.item.effectiveSymbols != null) {
+      effectiveSymbols = itemState.item.effectiveSymbols.slice();
     }
   }
 
@@ -200,8 +184,8 @@ export default function DatabaseModifyView({
               if (symbol === "" || symbol === null) {
                 return;
               }
-              symbols.push(symbol);
-              manuallyInputChange("symbols", symbols);
+              effectiveSymbols.push(symbol);
+              manuallyInputChange("effectiveSymbols", effectiveSymbols);
               manuallyInputChange("symbol", "");
             }}
           ></i>
@@ -262,7 +246,7 @@ export default function DatabaseModifyView({
                       0,
                       event.target.value.length - evaluationPeriod.length - 1
                     );
-                    let num : number = Number(x);
+                    let num: number = Number(x);
                     if (Number.isNaN(num)) return;
                     if (
                       event.target.value.endsWith(
@@ -345,8 +329,6 @@ export default function DatabaseModifyView({
                       0,
                       event.target.value.length - evaluationPeriod.length - 1
                     );
-                    let num = Number(x);
-                    if (Number.isNaN(num)) return;
                     if (
                       event.target.value.endsWith(
                         "-" + evaluationPeriod.toLowerCase()
@@ -374,23 +356,24 @@ export default function DatabaseModifyView({
           }
         })()}
 
-        
-
         <div>
           <label htmlFor="Current Symbols">Current Symbols</label>
           <ul>
             {(() => {
-              let arr: any[] = [];
-              for (let i = 0; i < symbols.length; i++) {
+              let arr: JSX.Element[] = [];
+              for (let i = 0; i < effectiveSymbols.length; i++) {
                 arr.push(
                   <li key={i}>
-                    {symbols[i]}{" "}
+                    {effectiveSymbols[i]}{" "}
                     <i
                       className="fa fa-trash fa-1"
                       title="Delete"
                       onClick={() => {
-                        symbols.splice(i, 1);
-                        manuallyInputChange("symbols", symbols);
+                        effectiveSymbols.splice(i, 1);
+                        manuallyInputChange(
+                          "effectiveSymbols",
+                          effectiveSymbols
+                        );
                       }}
                     />
                   </li>
@@ -398,7 +381,6 @@ export default function DatabaseModifyView({
               }
               return arr;
             })()}
-
           </ul>
         </div>
       </div>
@@ -421,7 +403,7 @@ export default function DatabaseModifyView({
             id="CancelButton"
             className="form-control"
             value="Cancel"
-            onClick={(e) => onOption("CANCEL")}
+            onClick={() => onOption("CANCEL")}
           />
         </div>
       </div>

@@ -73,11 +73,11 @@ export default function TradeModifyView({ itemState, inputChange, onOption }) {
     if (itemState.item.evaluationPeriod != null) {
       evaluationPeriod = itemState.item.evaluationPeriod;
     }
-    if (itemState.item.buyCondition != null) {
-      buyCondition = itemState.item.buyCondition;
+    if (itemState.item.rawBuyCondition != null) {
+      buyCondition = itemState.item.rawBuyCondition;
     }
-    if (itemState.item.sellCondition != null) {
-      sellCondition = itemState.item.sellCondition;
+    if (itemState.item.rawSellCondition != null) {
+      sellCondition = itemState.item.rawSellCondition;
     }
   }
 
@@ -340,6 +340,7 @@ export default function TradeModifyView({ itemState, inputChange, onOption }) {
             );
           }
         })()}
+
         {(() => {
           if (orderSide === "Buy" || orderSide === "Sell") {
             return (
@@ -358,6 +359,23 @@ export default function TradeModifyView({ itemState, inputChange, onOption }) {
         })()}
 
         {(() => {
+          if (orderSide === "Bot") {
+            return (
+              <div>
+                <label htmlFor="Budget">Budget</label>
+                <input
+                  id="budget"
+                  name="budget"
+                  value={budget}
+                  className="form-control"
+                  onChange={inputChange}
+                />
+              </div>
+            );
+          }
+        })()}
+
+        {(() => {
           if (orderSide === "Buy" || orderSide === "Bot") {
             return (
               <div>
@@ -365,13 +383,13 @@ export default function TradeModifyView({ itemState, inputChange, onOption }) {
                   className="fa fa-plus-square fa-1 float-start"
                   title="Select Algorithm"
                   onClick={() => {
-                    onOption("SELECT_VIEW", "buyCondition");
+                    onOption("SELECT_VIEW", "rawBuyCondition");
                   }}
                 ></i>
                 <label htmlFor="BuyCondition">Buy Condition</label>
                 <input
                   type="Text"
-                  id="buyCondition"
+                  id="rawBuyCondition"
                   name="buyCondition"
                   className="form-control"
                   autoCapitalize="off"
@@ -391,13 +409,13 @@ export default function TradeModifyView({ itemState, inputChange, onOption }) {
                   className="fa fa-plus-square fa-1 float-start"
                   title="Select Algorithm"
                   onClick={() => {
-                    onOption("SELECT_VIEW", "sellCondition");
+                    onOption("SELECT_VIEW", "rawSellCondition");
                   }}
                 ></i>
                 <label htmlFor="SellCondition">Sell Condition</label>
                 <input
                   type="Text"
-                  id="sellCondition"
+                  id="rawSellCondition"
                   name="sellCondition"
                   className="form-control"
                   autoCapitalize="off"
