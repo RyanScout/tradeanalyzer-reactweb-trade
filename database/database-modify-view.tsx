@@ -63,10 +63,7 @@ export default function DatabaseModifyView({
     if (itemState.item.ubbEvaluationDuration != null) {
       ubbEvaluationDuration = itemState.item.ubbEvaluationDuration;
     }
-    if (
-      itemState.item.standardDeviations != null &&
-      typeof itemState.item.standardDeviations === "number"
-    ) {
+    if (itemState.item.standardDeviations != null) {
       standardDeviations = itemState.item.standardDeviations;
     }
     if (itemState.item.effectiveSymbols != null) {
@@ -285,7 +282,6 @@ export default function DatabaseModifyView({
                       event.target.value.length - evaluationPeriod.length - 1
                     );
                     let num = Number(x);
-                    if (Number.isNaN(num)) return;
                     if (
                       event.target.value.endsWith(
                         "-" + evaluationPeriod.toLowerCase()

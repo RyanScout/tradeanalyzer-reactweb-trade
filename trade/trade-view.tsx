@@ -16,7 +16,7 @@ export default function TradeView({ itemState, appPrefs, onOption }) {
       rawBuyCondition: string;
       rawSellCondition: string;
       budget: number;
-      equity: number;
+      totalValue: number;
       tradeDetails: any[];
       status: "Running" | "Not Running";
     };
@@ -30,8 +30,9 @@ export default function TradeView({ itemState, appPrefs, onOption }) {
       cells.push(<td key="SELLCONDITION">{trade.rawSellCondition}</td>);
       cells.push(
         <td key="PROFIT">
-          {Math.round(((trade.equity - trade.budget) / trade.budget) * 1000) /
-            10}
+          {Math.round(
+            ((trade.totalValue - trade.budget) / trade.budget) * 1000
+          ) / 10}
           %
         </td>
       );
