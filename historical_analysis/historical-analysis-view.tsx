@@ -2,8 +2,13 @@
  *
  */
 import React from "react";
+import { useNavigate, Link } from "react-router-dom";
 
-export default function TradeView({ itemState, appPrefs, onOption }) {
+export default function HistoricalAnalysisView({
+  itemState,
+  appPrefs,
+  onOption,
+}) {
   let automatedTradeTableRows1: any[] = [];
   // fill latest tradestable
   if (
@@ -42,42 +47,32 @@ export default function TradeView({ itemState, appPrefs, onOption }) {
       );
       cells.push(
         <td key="CONTROL">
-        {(()=>{
-          if(trade.firstCheck === 0){
-            return 0;
-          }
-          return (Math.round(
-            ((trade.lastCheckPrice - trade.firstCheckPrice) /
-              trade.firstCheckPrice) *
-              1000
-          ) / 10
-          );
-    })()}
+          {(() => {
+            if (trade.firstCheck === 0) {
+              return 0;
+            }
+            return (
+              Math.round(
+                ((trade.lastCheckPrice - trade.firstCheckPrice) /
+                  trade.firstCheckPrice) *
+                  1000
+              ) / 10
+            );
+          })()}
           %
         </td>
       );
-      cells.push(<td key="STATUS">{trade.status}</td>);
       cells.push(
         <td key="MODIFY">
           <i
-            className="fa fa-edit fa-1"
-            title="Modify"
-            onClick={() => onOption("MODIFY", trade)}
-          ></i>{" "}
-          <i
-            className="fa fa-clipboard fa-1"
-            title="Historical_Analysis"
-            onClick={() => onOption("HISTORICAL_ANALYSIS_VIEW", trade)}
-          ></i>{" "}
-          <i
             className="fa fa-solid fa-bars"
             title="Modify"
-            onClick={() => onOption("TRADE_DETAIL_VIEW", trade)}
+            onClick={() => onOption("HISTORICAL_ANALYSIS_DETAIL_VIEW", trade)}
           ></i>{" "}
           <i
             className="fa fas fa-chart-bar"
             title="Graph"
-            onClick={() => onOption("TRADE_GRAPH_VIEW", trade)}
+            onClick={() => onOption("HISTORICAL_ANALYSIS_GRAPH_VIEW", trade)}
           ></i>{" "}
           <i
             className="fa fa-trash fa-1"
@@ -101,7 +96,7 @@ export default function TradeView({ itemState, appPrefs, onOption }) {
   return (
     <div className="container">
       <div className="row">
-        <p className="text-center fs-3 fw-bold"> Automated Trades </p>
+        <p className="text-center fs-3 fw-bold"> Historical Analyses </p>
       </div>
       <div className="row">
         <div className="col-sm-9" />
@@ -120,7 +115,6 @@ export default function TradeView({ itemState, appPrefs, onOption }) {
               <th scope="col">Sell Condition</th>
               <th scope="col">Profit</th>
               <th scope="col">Control</th>
-              <th scope="col">Status</th>
               <th scope="col"></th>
             </tr>
           </thead>

@@ -4,7 +4,11 @@
 import React from "react";
 import moment from "moment";
 
-export default function TradeDetailView({ itemState, appPrefs, onOption }) {
+export default function HistoricalDetailView({
+  itemState,
+  appPrefs,
+  onOption,
+}) {
   let automatedTradeTableRows1 = [];
   // fill latest tradestable
   if (
@@ -42,7 +46,7 @@ export default function TradeDetailView({ itemState, appPrefs, onOption }) {
       cells.push(<td key="AVAILABLEBUDGET">{detail.availableBudget}</td>);
       cells.push(<td key="SHARESHELD">{detail.sharesHeld}</td>);
       cells.push(<td key="FILLPRICE">{detail.assetPrice}</td>);
-      cells.push(<td key="ORDERCONDITION">{detail.orderCondition}</td>);
+      cells.push(<td key="ORDERCONDITION">{detail.rawOrderCondition}</td>);
       automatedTradeTableRows1.push(<tr key={i}>{cells}</tr>);
     }
   } else {

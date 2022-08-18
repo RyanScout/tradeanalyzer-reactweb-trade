@@ -1,7 +1,7 @@
 import "chart.js/auto";
 import React from "react";
 import { Chart, Line } from "react-chartjs-2";
-export default function TradeGraphView({ itemState, onOption }) {
+export default function HistoricalAnalysisGraphView({ itemState, onOption }) {
   let tradeHistory = [];
   let symbolHistory = [];
   let colors = [];

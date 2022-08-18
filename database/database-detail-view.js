@@ -13,8 +13,8 @@ export default function DatabaseDetailView({ itemState, onOption }) {
 
   if (itemState != null) {
     if (itemState.item != null) {
-      if (itemState.item.details != null) {
-        let arr = itemState.item.details.slice().sort(compare);
+      if (itemState.item.effectiveDetails != null) {
+        let arr = itemState.item.effectiveDetails.slice().sort(compare);
 
         let precision = 25;
 

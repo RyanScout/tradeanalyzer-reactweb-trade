@@ -57,7 +57,7 @@ export default function DatabaseView({ onOption, itemState, inputChange }) {
           <i
             className="fa fa-plus-square fa-1 float-end"
             title="Modify"
-            onClick={() => onOption("MODIFY_VIEW")}
+            onClick={() => onOption("MODIFY_VIEW", null)}
           ></i>
         </div>
         <table className="table table-striped">
