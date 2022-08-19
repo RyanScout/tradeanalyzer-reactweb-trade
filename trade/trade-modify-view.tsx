@@ -10,7 +10,7 @@ export default function TradeModifyView({ itemState, inputChange, onOption }) {
   let currencyAmount: number = 0;
   let trailingStopType: string = "";
   let profitLimitType: string = "";
-  let status: "Running" | "Not Running" = "Not Running";
+  let status: "Running" | "Not Running" | "Error" = "Not Running";
   let trailingStopAmount: number = 0;
   let profitLimitAmount: number = 0;
   let iterations: number = 0;
