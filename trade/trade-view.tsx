@@ -1,7 +1,7 @@
 /**
  *
  */
-import React from "react";
+import React, { useState } from "react";
 
 export default function TradeView({ itemState, appPrefs, onOption }) {
   let automatedTradeTableRows1: any[] = [];
@@ -28,6 +28,9 @@ export default function TradeView({ itemState, appPrefs, onOption }) {
     for (let i = 0; i < itemState.items.length; i++) {
       const trade: Trade = itemState.items[i];
 
+      const [gettingGraph, setGettingGraph] = useState(false);
+      const [gettingDetails, setGettingDetails] = useState(false);
+
       let cells: any[] = [];
       cells.push(<td key="NAME">{trade.name}</td>);
       cells.push(<td key="BUYCONDITION">{trade.rawBuyCondition}</td>);
@@ -42,17 +45,18 @@ export default function TradeView({ itemState, appPrefs, onOption }) {
       );
       cells.push(
         <td key="CONTROL">
-        {(()=>{
-          if(trade.firstCheck === 0){
-            return 0;
-          }
-          return (Math.round(
-            ((trade.lastCheckPrice - trade.firstCheckPrice) /
-              trade.firstCheckPrice) *
-              1000
-          ) / 10
-          );
-    })()}
+          {(() => {
+            if (trade.firstCheck === 0) {
+              return 0;
+            }
+            return (
+              Math.round(
+                ((trade.lastCheckPrice - trade.firstCheckPrice) /
+                  trade.firstCheckPrice) *
+                  1000
+              ) / 10
+            );
+          })()}
           %
         </td>
       );
@@ -70,14 +74,44 @@ export default function TradeView({ itemState, appPrefs, onOption }) {
             onClick={() => onOption("HISTORICAL_ANALYSIS_VIEW", trade)}
           ></i>{" "}
           <i
-            className="fa fa-solid fa-bars"
-            title="Modify"
-            onClick={() => onOption("TRADE_DETAIL_VIEW", trade)}
+            className={(() => {
+              if (gettingDetails) {
+                return "spinner-border spinner-border-sm";
+              }
+              return "fa fa-solid fa-bars";
+            })()}
+            title={(() => {
+              if (gettingDetails) {
+                return "Loading...";
+              }
+              return "Details";
+            })()}
+            onClick={() => {
+              if (!gettingDetails) {
+                onOption("TRADE_DETAIL_VIEW", trade);
+                setGettingDetails(true);
+              }
+            }}
           ></i>{" "}
           <i
-            className="fa fas fa-chart-bar"
-            title="Graph"
-            onClick={() => onOption("TRADE_GRAPH_VIEW", trade)}
+            className={(() => {
+              if (gettingGraph) {
+                return "spinner-border spinner-border-sm";
+              }
+              return "fa fas fa-chart-bar";
+            })()}
+            title={(() => {
+              if (gettingGraph) {
+                return "Loading...";
+              }
+              return "Graph";
+            })()}
+            onClick={() => {
+              if (!gettingGraph) {
+                onOption("TRADE_GRAPH_VIEW", trade);
+                setGettingGraph(true);
+              }
+            }}
           ></i>{" "}
           <i
             className="fa fa-trash fa-1"

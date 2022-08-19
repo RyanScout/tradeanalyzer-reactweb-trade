@@ -1,7 +1,7 @@
 /**
  *
  */
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function HistoricalAnalysisView({
@@ -32,6 +32,9 @@ export default function HistoricalAnalysisView({
 
     for (let i = 0; i < itemState.items.length; i++) {
       const trade: Trade = itemState.items[i];
+
+      const [gettingGraph, setGettingGraph] = useState(false);
+      const [gettingDetails, setGettingDetails] = useState(false);
 
       let cells: any[] = [];
       cells.push(<td key="NAME">{trade.name}</td>);
@@ -65,14 +68,44 @@ export default function HistoricalAnalysisView({
       cells.push(
         <td key="MODIFY">
           <i
-            className="fa fa-solid fa-bars"
-            title="Modify"
-            onClick={() => onOption("HISTORICAL_ANALYSIS_DETAIL_VIEW", trade)}
+            className={(() => {
+              if (gettingDetails) {
+                return "spinner-border spinner-border-sm";
+              }
+              return "fa fa-solid fa-bars";
+            })()}
+            title={(() => {
+              if (gettingDetails) {
+                return "Loading...";
+              }
+              return "Details";
+            })()}
+            onClick={() => {
+              if (!gettingDetails) {
+                onOption("HISTORICAL_ANALYSIS_DETAIL_VIEW", trade);
+                setGettingDetails(true);
+              }
+            }}
           ></i>{" "}
           <i
-            className="fa fas fa-chart-bar"
-            title="Graph"
-            onClick={() => onOption("HISTORICAL_ANALYSIS_GRAPH_VIEW", trade)}
+            className={(() => {
+              if (gettingGraph) {
+                return "spinner-border spinner-border-sm";
+              }
+              return "fa fas fa-chart-bar";
+            })()}
+            title={(() => {
+              if (gettingGraph) {
+                return "Loading...";
+              }
+              return "Graph";
+            })()}
+            onClick={() => {
+              if (!gettingGraph) {
+                onOption("HISTORICAL_ANALYSIS_GRAPH_VIEW", trade);
+                setGettingGraph(true);
+              }
+            }}
           ></i>{" "}
           <i
             className="fa fa-trash fa-1"

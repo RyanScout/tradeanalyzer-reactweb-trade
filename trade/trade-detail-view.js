@@ -42,7 +42,7 @@ export default function TradeDetailView({ itemState, appPrefs, onOption }) {
       cells.push(<td key="AVAILABLEBUDGET">{detail.availableBudget}</td>);
       cells.push(<td key="SHARESHELD">{detail.sharesHeld}</td>);
       cells.push(<td key="FILLPRICE">{detail.assetPrice}</td>);
-      cells.push(<td key="ORDERCONDITION">{detail.orderCondition}</td>);
+      cells.push(<td key="ORDERCONDITION">{detail.rawOrderCondition}</td>);
       automatedTradeTableRows1.push(<tr key={i}>{cells}</tr>);
     }
   } else {

@@ -6,12 +6,12 @@ export default function DatabaseSymbolView({
   itemState,
   inputChange,
 }) {
-
   type TechnicalIndicator = {
     id: number;
     flashed: number;
     checked: number;
-
+    firstCheck: number;
+    lastCheck: number;
     symbol: string;
 
     updating: boolean;
@@ -19,9 +19,7 @@ export default function DatabaseSymbolView({
     effectiveDetails: any[];
   };
 
-  type TechnicalIndicatorDetail = {
-
-  };
+  type TechnicalIndicatorDetail = {};
 
   let automatedTradeTableRows1: any[] = [];
   // fill latest tradestable
@@ -31,7 +29,8 @@ export default function DatabaseSymbolView({
     itemState.item.technicalIndicators != null &&
     itemState.item.technicalIndicators.length > 0
   ) {
-    let technicalIndicators: TechnicalIndicator[] = itemState.item.technicalIndicators.slice();
+    let technicalIndicators: TechnicalIndicator[] =
+      itemState.item.technicalIndicators.slice();
     technicalIndicators.sort((a, b) => {
       const symbolA: string = a.symbol;
       const symbolB: string = b.symbol;
@@ -49,6 +48,23 @@ export default function DatabaseSymbolView({
 
       let cells: any[] = [];
       cells.push(<td key="SYMBOL">{technicalIndicator.symbol}</td>);
+
+      cells.push(
+        <td key="FIRST_CHECK">
+          {moment(new Date(technicalIndicator.firstCheck * 1000)).format(
+            "MMM Do, YYYY"
+          )}
+        </td>
+      );
+
+      cells.push(
+        <td key="LAST_CHECK">
+          {moment(new Date(technicalIndicator.lastCheck * 1000)).format(
+            "MMM Do, YYYY"
+          )}
+        </td>
+      );
+
       cells.push(
         <td key="FLASH_PERCENT">
           {Math.round(
@@ -65,11 +81,15 @@ export default function DatabaseSymbolView({
             });
             return (
               "" +
-              Math.round((total / technicalIndicator.effectiveDetails.length) * 10) / 10
+              Math.round(
+                (total / technicalIndicator.effectiveDetails.length) * 10
+              ) /
+                10
             );
           })()}
         </td>
       );
+
       cells.push(
         <td key="DETAIL_VIEW">
           <i
@@ -121,6 +141,8 @@ export default function DatabaseSymbolView({
           <thead>
             <tr>
               <th scope="col">Symbol</th>
+              <th scope="col">First Check</th>
+              <th scope="col">Last Check</th>
               <th scope="col">Flash %</th>
               <th scope="col">Avg. Success %</th>
               <th scope="col"></th>
