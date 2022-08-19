@@ -1,7 +1,7 @@
 import "chart.js/auto";
 import React from "react";
 import { Chart } from "react-chartjs-2";
-export default function DatabaseDetailView({ itemState, onOption }) {
+export default function DatabaseGraphView({ itemState, onOption }) {
   let distributionPercentData = [];
   let cumulativeDistributionPercentData = [];
 

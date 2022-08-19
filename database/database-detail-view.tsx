@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import moment from "moment";
 
-export default function DatabaseSymbolView({
+export default function DatabaseDetailView({
   onOption,
   itemState,
   inputChange,
@@ -91,11 +91,11 @@ export default function DatabaseSymbolView({
       );
 
       cells.push(
-        <td key="DETAIL_VIEW">
+        <td key="GRAPH_VIEW">
           <i
             className="fa fas fa-chart-bar"
             title="DetailView"
-            onClick={() => onOption("DETAIL_VIEW", technicalIndicator)}
+            onClick={() => onOption("GRAPH_VIEW", technicalIndicator)}
           ></i>{" "}
           <i
             className={(() => {
