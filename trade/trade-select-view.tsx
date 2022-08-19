@@ -1,22 +1,26 @@
 import React from "react";
 import moment from "moment";
 
-export default function TradeSelectView({ itemState, selectInputChange }) {
+export default function TradeSelectView({
+  itemState,
+  onOption,
+  selectInputChange,
+}) {
   let automatedTradeTableRows1: JSX.Element[] = [];
   // fill latest tradestable
   if (
     itemState != null &&
-    itemState.customTechnicalIndicators != null &&
-    itemState.customTechnicalIndicators.length > 0
+    itemState.item.customTechnicalIndicators != null &&
+    itemState.item.customTechnicalIndicators.length > 0
   ) {
     const field: string = itemState.field;
     const fieldValue: string = itemState.item[field];
 
-    for (let i = 0; i < itemState.customTechnicalIndicators.length; i++) {
+    for (let i = 0; i < itemState.item.customTechnicalIndicators.length; i++) {
       let cells: JSX.Element[] = [];
 
       const customTechnicalIndicator: any =
-        itemState.customTechnicalIndicators[i];
+        itemState.item.customTechnicalIndicators[i];
 
       cells.push(<td key="NAME">{customTechnicalIndicator.name}</td>);
       cells.push(
@@ -55,6 +59,7 @@ export default function TradeSelectView({ itemState, selectInputChange }) {
       <div className="row">
         <p className="text-center fs-3 fw-bold"> Algorithm Analysis </p>
       </div>
+      <button onClick={() => onOption("MODIFY", itemState.item)}>Back</button>
       <div className="row">
         <div className="col-sm-9" />
         <div className="col-sm-3"></div>

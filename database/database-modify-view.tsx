@@ -27,28 +27,16 @@ export default function DatabaseModifyView({
   let effectiveSymbols: string[] = [];
 
   if (itemState.item != null) {
-    if (
-      itemState.item.name != null &&
-      typeof itemState.item.name === "string"
-    ) {
+    if (itemState.item.name != null) {
       name = itemState.item.name;
     }
-    if (
-      itemState.item.evaluationPeriod != null &&
-      typeof itemState.item.evaluationPeriod === "string"
-    ) {
+    if (itemState.item.evaluationPeriod != null) {
       evaluationPeriod = itemState.item.evaluationPeriod;
     }
-    if (
-      itemState.item.symbol != null &&
-      typeof itemState.item.symbol === "string"
-    ) {
+    if (itemState.item.symbol != null) {
       symbol = itemState.item.symbol;
     }
-    if (
-      itemState.item.technicalIndicatorType != null &&
-      typeof itemState.item.technicalIndicatorType === "string"
-    ) {
+    if (itemState.item.technicalIndicatorType != null) {
       technicalIndicatorType = itemState.item.technicalIndicatorType;
     }
     if (itemState.item.shortSMAEvaluationDuration != null) {
