@@ -26,6 +26,11 @@ export default function DatabaseView({ onOption, itemState, inputChange }) {
           <i
             className="fa fa-solid fa-bars"
             title="SymbolView"
+            onClick={() => onOption("DETAIL_VIEW", itemState.items[i])}
+          ></i>{" "}
+          <i
+            className="fa fa-solid fa-bars"
+            title="SymbolView"
             onClick={() => onOption("SNAPSHOT_VIEW", itemState.items[i])}
           ></i>{" "}
           <i
