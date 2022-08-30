@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
 import moment from "moment";
+import { start } from "@popperjs/core";
 
 export default function DatabaseSnapshotView({
   onOption,
   itemState,
   inputChange,
+  buildThunk,
 }) {
   type Snapshot = {
     id: number;
@@ -14,6 +17,7 @@ export default function DatabaseSnapshotView({
     lastCheck: number;
     symbol: string;
     updating: boolean;
+    averageSuccessPercent: number;
     effectiveDetails: any[];
   };
 
@@ -33,7 +37,9 @@ export default function DatabaseSnapshotView({
     });
 
     for (let i = 0; i < snapshots.length; i++) {
-      let snapshot: Snapshot = snapshots[i];
+      const snapshot: Snapshot = snapshots[i];
+      const firstCheck: number = snapshot.firstCheck;
+      const lastCheck: number = snapshot.lastCheck;
 
       if (snapshot == null) {
         continue;
@@ -45,14 +51,34 @@ export default function DatabaseSnapshotView({
       cells.push(<td key="SYMBOL">{snapshot.symbol}</td>);
 
       cells.push(
-        <td key="FIRST_CHECK">
-          {moment(new Date(snapshot.firstCheck * 1000)).format("MMM Do, YYYY")}
-        </td>
-      );
+        <td key="DATE_RANGE">
+          <DateTimeRangePicker
+            value={[new Date(firstCheck * 1000), new Date(lastCheck * 1000)]}
+            onChange={(value) => {
+              const id: number = snapshot.id;
 
-      cells.push(
-        <td key="LAST_CHECK">
-          {moment(new Date(snapshot.lastCheck * 1000)).format("MMM Do, YYYY")}
+              let startTime: number = 0;
+              let endTime: number = 0;
+
+              if (value !== null) {
+                startTime = value![0]!.getTime() / 1000;
+                endTime = value![1]!.getTime() / 1000;
+              }
+
+              const type = "MODIFY_SNAPSHOT";
+
+              const payload = {
+                id: id,
+                startTime: startTime,
+                endTime: endTime,
+              };
+
+              buildThunk({
+                type: type,
+                payload: payload,
+              });
+            }}
+          />
         </td>
       );
 
@@ -62,18 +88,7 @@ export default function DatabaseSnapshotView({
         </td>
       );
       cells.push(
-        <td key="AVG_SUCCESS_PERCENT">
-          {(() => {
-            let total = 0.0;
-            snapshot.effectiveDetails.forEach((detail) => {
-              total += detail.successPercent;
-            });
-            return (
-              "" +
-              Math.round((total / snapshot.effectiveDetails.length) * 10) / 10
-            );
-          })()}
-        </td>
+        <td key="AVG_SUCCESS_PERCENT">{snapshot.averageSuccessPercent}</td>
       );
 
       cells.push(
@@ -98,7 +113,7 @@ export default function DatabaseSnapshotView({
             })()}
             onClick={() => {
               if (!updating) {
-                onOption("CREATE_SNAPSHOT", snapshot);
+                onOption("MODIFY_SNAPSHOT", snapshot);
                 setUpdating(true);
               }
             }}
@@ -127,8 +142,7 @@ export default function DatabaseSnapshotView({
           <thead>
             <tr>
               <th scope="col">Symbol</th>
-              <th scope="col">First Check</th>
-              <th scope="col">Last Check</th>
+              <th scope="col">Date Range</th>
               <th scope="col">Flash %</th>
               <th scope="col">Avg. Success %</th>
               <th scope="col"></th>
