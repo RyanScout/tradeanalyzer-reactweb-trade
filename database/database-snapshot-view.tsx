@@ -96,7 +96,7 @@ export default function DatabaseSnapshotView({
           <i
             className="fa fas fa-chart-bar"
             title="DetailView"
-            onClick={() => onOption("GRAPH_VIEW", snapshot)}
+            onClick={() => onOption("SNAPSHOT_GRAPH_VIEW", snapshot)}
           ></i>{" "}
           <i
             className={(() => {
