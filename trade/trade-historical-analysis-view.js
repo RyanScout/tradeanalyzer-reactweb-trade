@@ -10,9 +10,8 @@ export default function HistoricalAnalysisView({
   inputChange,
   onOption,
 }) {
-
-  let startTime = 1609507862;
-  let endTime = 1640957462;
+  let startTime = 1641016800;
+  let endTime = 1641016800;
   if (itemState.item != null) {
     if (itemState.item.startTime != null) startTime = itemState.item.startTime;
     if (itemState.item.endTime != null) endTime = itemState.item.endTime;
@@ -27,29 +26,25 @@ export default function HistoricalAnalysisView({
           <label>Start Date</label>
           <input
             type="date"
-            min="2021-01-01"
-            max="2021-12-31"
+            min="2022-01-01"
+            max="2022-12-31"
             id="startTime"
             name="startTime"
             className="startTime"
             onChange={inputChange}
-            value={
-              moment(new Date(startTime *1000)).format("YYYY-MM-DD")
-            }
+            value={moment(new Date(startTime * 1000)).format("YYYY-MM-DD")}
           />
           <div id="End-Date">
             <label>End Date</label>
             <input
               type="date"
-              min="2021-01-01"
-              max="2021-12-31"
+              min="2022-01-01"
+              max="2022-12-31"
               id="endTime"
               name="endTime"
               className="endTime"
               onChange={inputChange}
-              value={
-                moment(new Date(endTime *1000)).format("YYYY-MM-DD")
-              }
+              value={moment(new Date(endTime * 1000)).format("YYYY-MM-DD")}
             />
           </div>
         </div>
@@ -64,12 +59,7 @@ export default function HistoricalAnalysisView({
             className="form-control btn-primary"
             value="Historically Analyze"
             onClick={() => {
-              if(itemState.item.evaluationPeriod == "Day")
-              onOption("HISTORICALLY_ANALYZE_SWING_TRADE")
-              else if(itemState.item.evaluationPeriod == "Minute")
-              onOption("HISTORICALLY_ANALYZE_DAY_TRADE")
-              else
-              alert("EVALUATION PERIOD REQUIRED")
+              onOption("HISTORICALLY_ANALYZE_SWING_TRADE", itemState.item);
             }}
           />
         </div>

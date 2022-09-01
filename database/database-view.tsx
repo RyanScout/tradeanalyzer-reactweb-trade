@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 
 export default function DatabaseView({ onOption, itemState, inputChange }) {
-  let automatedTradeTableRows1 = [];
+  let automatedTradeTableRows1: JSX.Element[] = [];
   // fill latest tradestable
   if (
     itemState != null &&
@@ -10,7 +10,7 @@ export default function DatabaseView({ onOption, itemState, inputChange }) {
     itemState.items.length > 0
   ) {
     for (let i = 0; i < itemState.items.length; i++) {
-      let cells = [];
+      let cells: JSX.Element[] = [];
       cells.push(<td key="NAME">{itemState.items[i].name}</td>);
       cells.push(<td key="KEY">{itemState.items[i].technicalIndicatorKey}</td>);
       cells.push(
@@ -26,7 +26,12 @@ export default function DatabaseView({ onOption, itemState, inputChange }) {
           <i
             className="fa fa-solid fa-bars"
             title="SymbolView"
-            onClick={() => onOption("SYMBOL_VIEW", itemState.items[i])}
+            onClick={() => onOption("DETAIL_VIEW", itemState.items[i])}
+          ></i>{" "}
+          <i
+            className="fa fa-solid fa-bars"
+            title="SymbolView"
+            onClick={() => onOption("SNAPSHOT_VIEW", itemState.items[i])}
           ></i>{" "}
           <i
             className="fa fa-trash fa-1"
@@ -57,7 +62,7 @@ export default function DatabaseView({ onOption, itemState, inputChange }) {
           <i
             className="fa fa-plus-square fa-1 float-end"
             title="Modify"
-            onClick={() => onOption("MODIFY_VIEW")}
+            onClick={() => onOption("MODIFY_VIEW", null)}
           ></i>
         </div>
         <table className="table table-striped">

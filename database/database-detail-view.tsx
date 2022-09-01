@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import moment from "moment";
 
-export default function DatabaseSymbolView({
+export default function DatabaseDetailView({
   onOption,
   itemState,
   inputChange,
 }) {
-  let automatedTradeTableRows1 = [];
+  type TechnicalIndicator = {
+    id: number;
+    flashed: number;
+    checked: number;
+    firstCheck: number;
+    lastCheck: number;
+    symbol: string;
+
+    updating: boolean;
+
+    effectiveDetails: any[];
+  };
+
+  type TechnicalIndicatorDetail = {};
+
+  let automatedTradeTableRows1: any[] = [];
   // fill latest tradestable
   if (
     itemState != null &&
@@ -14,11 +29,16 @@ export default function DatabaseSymbolView({
     itemState.item.technicalIndicators != null &&
     itemState.item.technicalIndicators.length > 0
   ) {
-    let technicalIndicators = itemState.item.technicalIndicators.slice();
-    technicalIndicators.sort((a, b) => a.symbol.localeCompare(b.symbol));
+    let technicalIndicators: TechnicalIndicator[] =
+      itemState.item.technicalIndicators.slice();
+    technicalIndicators.sort((a, b) => {
+      const symbolA: string = a.symbol;
+      const symbolB: string = b.symbol;
+      return symbolA.localeCompare(symbolB);
+    });
 
     for (let i = 0; i < technicalIndicators.length; i++) {
-      let technicalIndicator = technicalIndicators[i];
+      let technicalIndicator: TechnicalIndicator = technicalIndicators[i];
 
       if (technicalIndicator == null) {
         continue;
@@ -26,8 +46,25 @@ export default function DatabaseSymbolView({
 
       const [updating, setUpdating] = useState(technicalIndicator.updating);
 
-      let cells = [];
+      let cells: any[] = [];
       cells.push(<td key="SYMBOL">{technicalIndicator.symbol}</td>);
+
+      cells.push(
+        <td key="FIRST_CHECK">
+          {moment(new Date(technicalIndicator.firstCheck * 1000)).format(
+            "MMM Do, YYYY"
+          )}
+        </td>
+      );
+
+      cells.push(
+        <td key="LAST_CHECK">
+          {moment(new Date(technicalIndicator.lastCheck * 1000)).format(
+            "MMM Do, YYYY"
+          )}
+        </td>
+      );
+
       cells.push(
         <td key="FLASH_PERCENT">
           {Math.round(
@@ -39,22 +76,26 @@ export default function DatabaseSymbolView({
         <td key="AVG_SUCCESS_PERCENT">
           {(() => {
             let total = 0.0;
-            technicalIndicator.details.forEach((detail) => {
+            technicalIndicator.effectiveDetails.forEach((detail) => {
               total += detail.successPercent;
             });
             return (
               "" +
-              Math.round((total / technicalIndicator.details.length) * 10) / 10
+              Math.round(
+                (total / technicalIndicator.effectiveDetails.length) * 10
+              ) /
+                10
             );
           })()}
         </td>
       );
+
       cells.push(
-        <td key="DETAIL_VIEW">
+        <td key="GRAPH_VIEW">
           <i
             className="fa fas fa-chart-bar"
             title="DetailView"
-            onClick={() => onOption("DETAIL_VIEW", technicalIndicator)}
+            onClick={() => onOption("GRAPH_VIEW", technicalIndicator)}
           ></i>{" "}
           <i
             className={(() => {
@@ -100,6 +141,8 @@ export default function DatabaseSymbolView({
           <thead>
             <tr>
               <th scope="col">Symbol</th>
+              <th scope="col">First Check</th>
+              <th scope="col">Last Check</th>
               <th scope="col">Flash %</th>
               <th scope="col">Avg. Success %</th>
               <th scope="col"></th>

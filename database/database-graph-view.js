@@ -1,7 +1,7 @@
 import "chart.js/auto";
 import React from "react";
 import { Chart } from "react-chartjs-2";
-export default function DatabaseDetailView({ itemState, onOption }) {
+export default function DatabaseGraphView({ itemState, onOption }) {
   let distributionPercentData = [];
   let cumulativeDistributionPercentData = [];
 
@@ -13,8 +13,8 @@ export default function DatabaseDetailView({ itemState, onOption }) {
 
   if (itemState != null) {
     if (itemState.item != null) {
-      if (itemState.item.details != null) {
-        let arr = itemState.item.details.slice().sort(compare);
+      if (itemState.item.effectiveDetails != null) {
+        let arr = itemState.item.effectiveDetails.slice().sort(compare);
 
         let precision = 25;
 
