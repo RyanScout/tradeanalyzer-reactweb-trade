@@ -3,37 +3,33 @@
  */
 import React from "react";
 
-export default function TradeModifyView({
-  itemState,
-  appPrefs,
-  inputChange,
-  onOption,
-  AutoComplete,
-  Testform,
-}) {
-
-  let name = "";
-  let symbol = "";
-  let currencyAmount = "";
-  let trailingStopType = "";
-  let profitLimitType = "";
-  let status = "";
-  let trailingStopAmount = "";
-  let profitLimitAmount = "";
-  let iterations = "";
-  let budget = "";
-  let orderSide = "";
-  let orderType = "";
-  let currencyType = "";
-  let evaluationPeriod = "";
-
-  let test = "";
-
-  let suggestions = [];
+export default function TradeModifyView({ itemState, inputChange, onOption }) {
+  let id: number = 0;
+  let name: string = "";
+  let symbol: string = "";
+  let currencyAmount: number = 0;
+  let trailingStopType: string = "";
+  let profitLimitType: string = "";
+  let status: "Running" | "Not Running" | "Error" = "Not Running";
+  let trailingStopAmount: number = 0;
+  let profitLimitAmount: number = 0;
+  let iterations: number = 0;
+  let budget: number = 0;
+  let orderSide: "Buy" | "Sell" | "Bot" | "Default" = "Default";
+  let orderType:
+    | "Market"
+    | "Profit Limit"
+    | "Trailing Stop"
+    | "Trailing Stop & Profit Limit"
+    | "Default" = "Default";
+  let currencyType: string = "";
+  let evaluationPeriod: "DAY" | "MINUTE" = "DAY";
+  let buyCondition: string = "";
+  let sellCondition: string = "";
 
   if (itemState.item != null) {
-    if (itemState.item.test != null) {
-      test = itemState.item.test;
+    if (itemState.item.id != null) {
+      id = itemState.item.id;
     }
     if (itemState.item.name != null) {
       name = itemState.item.name;
@@ -46,9 +42,6 @@ export default function TradeModifyView({
     }
     if (itemState.item.profitLimitAmount != null) {
       profitLimitAmount = itemState.item.profitLimitAmount;
-    }
-    if (itemState.item.calendar != null) {
-      calendarValue = itemState.item.calendar;
     }
     if (itemState.item.iterations != null) {
       iterations = itemState.item.iterations;
@@ -80,12 +73,11 @@ export default function TradeModifyView({
     if (itemState.item.evaluationPeriod != null) {
       evaluationPeriod = itemState.item.evaluationPeriod;
     }
-    if (itemState.customTechnicalIndicators != null) {
-      suggestions = itemState.customTechnicalIndicators.map(
-        (customTechnicalIndicator) => {
-          return customTechnicalIndicator.name;
-        }
-      );
+    if (itemState.item.rawBuyCondition != null) {
+      buyCondition = itemState.item.rawBuyCondition;
+    }
+    if (itemState.item.rawSellCondition != null) {
+      sellCondition = itemState.item.rawSellCondition;
     }
   }
 
@@ -109,16 +101,6 @@ export default function TradeModifyView({
       default:
         return "";
     }
-  };
-
-  let dynamicallyShowOrderCondition = (value) => {
-    if (orderSide == value || orderSide == "Bot") return "";
-    else return "invisible-element";
-  };
-
-  let dynamicallyShowElement = (value) => {
-    if (orderType.includes(value)) return "";
-    else return "invisible-element";
   };
 
   let orderSideClassName = (value) => {
@@ -156,13 +138,11 @@ export default function TradeModifyView({
     );
   }
 
-  let saveTxt = "Save";
-
-  let optionsStatus = [
+  let optionsStatus: any[] = [
     { label: "Running", value: "Running" },
-    { label: "Not Running", label: "Not Running" },
+    { label: "Not Running", value: "Not Running" },
   ];
-  let selectOptionsStatus = [];
+  let selectOptionsStatus: any[] = [];
   for (let i = 0; i < optionsStatus.length; i++) {
     let label = "";
     if (
@@ -180,7 +160,7 @@ export default function TradeModifyView({
     );
   }
 
-  let optionsOrderType = [
+  let optionsOrderType: any[] = [
     { label: "Market", value: "Market" },
     { label: "Trailing Stop", value: "Trailing Stop" },
     { label: "Profit Limit", value: "Profit Limit" },
@@ -189,7 +169,7 @@ export default function TradeModifyView({
       value: "Trailing Stop & Profit Limit",
     },
   ];
-  let selectOptionsOrderType = [];
+  let selectOptionsOrderType: any[] = [];
   for (let i = 0; i < optionsOrderType.length; i++) {
     let label = "";
     if (
@@ -207,11 +187,11 @@ export default function TradeModifyView({
     );
   }
 
-  let optionsEvaluationPeriod = [
+  let optionsEvaluationPeriod: any[] = [
     { label: "DAY", value: "DAY" },
     { label: "MINUTE", value: "MINUTE" },
   ];
-  let selectOptionsEvaluationPeriod = [];
+  let selectOptionsEvaluationPeriod: any[] = [];
   for (let i = 0; i < optionsEvaluationPeriod.length; i++) {
     let label = "";
     if (
@@ -311,81 +291,141 @@ export default function TradeModifyView({
             value={currencyAmount}
           />
         </div>
-        <div className={dynamicallyShowElement("Profit Limit")}>
-          <button
-            onClick={inputChange}
-            id="profitLimitType"
-            value={variableSwitcher(profitLimitType)}
-          >
-            {profitLimitType}
-          </button>
-          <input
-            type="Number"
-            id="profitLimitAmount"
-            name="profitLimitAmount"
-            className="form-control"
-            autoCapitalize="off"
-            onChange={inputChange}
-            value={profitLimitAmount}
-          />
-        </div>
-        <div className={dynamicallyShowElement("Trailing Stop")}>
-          <button
-            onClick={inputChange}
-            id="trailingStopType"
-            value={variableSwitcher(trailingStopType)}
-          >
-            {trailingStopType}
-          </button>
-          <input
-            type="Number"
-            id="trailingStopAmount"
-            name="trailingStopAmount"
-            className="form-control"
-            autoCapitalize="off"
-            onChange={inputChange}
-            value={trailingStopAmount}
-          />
-        </div>
-        <div
-          className={(function () {
-            if (orderSide == "Buy" || orderSide == "Sell") return "";
-            else return "invisible-element";
-          })()}
-        >
-          <label htmlFor="Iterations">Iterations</label>
-          <input
-            id="iterations"
-            name="iterations"
-            value={iterations}
-            className="form-control"
-            onChange={inputChange}
-          />
-        </div>
-        <div className={dynamicallyShowOrderCondition("Bot")}>
-          <label htmlFor="Budget">Budget</label>
-          <input
-            type="Number"
-            min="0"
-            step="1"
-            id="budget"
-            name="budget"
-            className="form-control"
-            autoCapitalize="off"
-            onChange={inputChange}
-            value={budget}
-          />
-        </div>
-        <div className={dynamicallyShowOrderCondition("Buy")}>
-          <label htmlFor="BuyCondition">Buy Condition</label>
-          {AutoComplete(suggestions, "buyCondition")}
-        </div>
+        {(() => {
+          if (orderType.includes("Profit Limit")) {
+            return (
+              <div>
+                <button
+                  onClick={inputChange}
+                  id="profitLimitType"
+                  value={variableSwitcher(profitLimitType)}
+                >
+                  {profitLimitType}
+                </button>
+                <input
+                  type="Number"
+                  id="profitLimitAmount"
+                  name="profitLimitAmount"
+                  className="form-control"
+                  autoCapitalize="off"
+                  onChange={inputChange}
+                  value={profitLimitAmount}
+                />
+              </div>
+            );
+          }
+        })()}
 
-        <div className={dynamicallyShowOrderCondition("Sell")}>
-          <label htmlFor="SellCondition">Sell Condition</label>
-          {AutoComplete(suggestions, "sellCondition")}
-        </div>
+        {(() => {
+          if (orderType.includes("Trailing Stop")) {
+            return (
+              <div>
+                <button
+                  onClick={inputChange}
+                  id="trailingStopType"
+                  value={variableSwitcher(trailingStopType)}
+                >
+                  {trailingStopType}
+                </button>
+                <input
+                  type="Number"
+                  id="trailingStopAmount"
+                  name="trailingStopAmount"
+                  className="form-control"
+                  autoCapitalize="off"
+                  onChange={inputChange}
+                  value={trailingStopAmount}
+                />
+              </div>
+            );
+          }
+        })()}
 
+        {(() => {
+          if (orderSide === "Buy" || orderSide === "Sell") {
+            return (
+              <div>
+                <label htmlFor="Iterations">Iterations</label>
+                <input
+                  id="iterations"
+                  name="iterations"
+                  value={iterations}
+                  className="form-control"
+                  onChange={inputChange}
+                />
+              </div>
+            );
+          }
+        })()}
+
+        {(() => {
+          if (orderSide === "Bot") {
+            return (
+              <div>
+                <label htmlFor="Budget">Budget</label>
+                <input
+                  id="budget"
+                  name="budget"
+                  value={budget}
+                  className="form-control"
+                  onChange={inputChange}
+                />
+              </div>
+            );
+          }
+        })()}
+
+        {(() => {
+          if (orderSide === "Buy" || orderSide === "Bot") {
+            return (
+              <div>
+                <i
+                  className="fa fa-plus-square fa-1 float-start"
+                  title="Select Algorithm"
+                  onClick={() => {
+                    onOption("SELECT_VIEW", "rawBuyCondition");
+                  }}
+                ></i>
+                <label htmlFor="BuyCondition">Buy Condition</label>
+                <input
+                  type="Text"
+                  id="rawBuyCondition"
+                  name="buyCondition"
+                  className="form-control"
+                  autoCapitalize="off"
+                  onChange={inputChange}
+                  value={buyCondition}
+                />
+              </div>
+            );
+          }
+        })()}
+
+        {(() => {
+          if (orderSide === "Sell" || orderSide === "Bot") {
+            return (
+              <div>
+                <i
+                  className="fa fa-plus-square fa-1 float-start"
+                  title="Select Algorithm"
+                  onClick={() => {
+                    onOption("SELECT_VIEW", "rawSellCondition");
+                  }}
+                ></i>
+                <label htmlFor="SellCondition">Sell Condition</label>
+                <input
+                  type="Text"
+                  id="rawSellCondition"
+                  name="sellCondition"
+                  className="form-control"
+                  autoCapitalize="off"
+                  onChange={inputChange}
+                  value={sellCondition}
+                />
+              </div>
+            );
+          }
+        })()}
         <div>
           <label htmlFor="Status">Status</label>
           <select
@@ -411,23 +451,23 @@ export default function TradeModifyView({
             onClick={() => onOption("SAVE")}
           />
         </div>
-        <div
-          className={(() => {
-            if (itemState.item.id == null) {
-              return "invisible-element";
-            }
-            return "col-sm";
-          })()}
-        >
-          <input
-            type="submit"
-            name="ResetButton"
-            id="ResetButton"
-            className="form-control btn-primary"
-            value="Reset"
-            onClick={() => onOption("RESET",itemState.item)}
-          />
-        </div>
+        {(() => {
+          if (id > 0) {
+            return (
+              <div>
+                <input
+                  type="submit"
+                  name="ResetButton"
+                  id="ResetButton"
+                  className="form-control btn-primary"
+                  value="Reset"
+                  onClick={() => onOption("RESET", itemState.item)}
+                />
+              </div>
+            );
+          }
+        })()}
+
         <div className="col-sm">
           <input
             type="submit"

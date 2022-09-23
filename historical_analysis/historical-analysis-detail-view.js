@@ -4,7 +4,11 @@
 import React from "react";
 import moment from "moment";
 
-export default function TradeDetailView({ itemState, appPrefs, onOption }) {
+export default function HistoricalDetailView({
+  itemState,
+  appPrefs,
+  onOption,
+}) {
   let automatedTradeTableRows1 = [];
   // fill latest tradestable
   if (
