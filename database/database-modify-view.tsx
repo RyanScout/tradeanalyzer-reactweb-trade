@@ -190,7 +190,7 @@ export default function DatabaseModifyView({
             return (
               <div>
                 <label htmlFor="shortSMAEvaluationDuration">
-                  Short SMA Type
+                  Short SMA Duration
                 </label>
                 <input
                   type="Text"
@@ -199,25 +199,12 @@ export default function DatabaseModifyView({
                   className="form-control"
                   autoCapitalize="off"
                   onChange={(event) => {
-                    let x = event.target.value.substring(
-                      0,
-                      event.target.value.length - evaluationPeriod.length - 1
+                    manuallyInputChange(
+                      "shortSMAEvaluationDuration",
+                      event.target.value
                     );
-                    let num = Number(x);
-                    if (Number.isNaN(num)) return;
-                    if (
-                      event.target.value.endsWith(
-                        "-" + evaluationPeriod.toLowerCase()
-                      )
-                    ) {
-                      manuallyInputChange("shortSMAEvaluationDuration", num);
-                    }
                   }}
-                  value={
-                    shortSMAEvaluationDuration +
-                    "-" +
-                    evaluationPeriod.toLowerCase()
-                  }
+                  value={shortSMAEvaluationDuration}
                 />
                 <label htmlFor="longSMAEvaluationDuration">Long SMA Type</label>
                 <input
@@ -227,26 +214,12 @@ export default function DatabaseModifyView({
                   className="form-control"
                   autoCapitalize="off"
                   onChange={(event) => {
-                    let x = event.target.value.substring(
-                      0,
-                      event.target.value.length - evaluationPeriod.length - 1
+                    manuallyInputChange(
+                      "longSMAEvaluationDuration",
+                      event.target.value
                     );
-                    let num: number = Number(x);
-                    if (Number.isNaN(num)) return;
-                    if (
-                      event.target.value.endsWith(
-                        "-" + evaluationPeriod.toLowerCase()
-                      )
-                    ) {
-                      console.log("changing to - " + x);
-                      manuallyInputChange("longSMAEvaluationDuration", num);
-                    }
                   }}
-                  value={
-                    longSMAEvaluationDuration +
-                    "-" +
-                    evaluationPeriod.toLowerCase()
-                  }
+                  value={longSMAEvaluationDuration}
                 />
               </div>
             );
@@ -265,22 +238,14 @@ export default function DatabaseModifyView({
                   className="form-control"
                   autoCapitalize="off"
                   onChange={(event) => {
-                    let x = event.target.value.substring(
-                      0,
-                      event.target.value.length - evaluationPeriod.length - 1
-                    );
-                    let num = Number(x);
-                    if (
-                      event.target.value.endsWith(
-                        "-" + evaluationPeriod.toLowerCase()
-                      )
-                    ) {
-                      manuallyInputChange("lbbEvaluationDuration", num);
+                    {
+                      manuallyInputChange(
+                        "lbbEvaluationDuration",
+                        event.target.value
+                      );
                     }
                   }}
-                  value={
-                    lbbEvaluationDuration + "-" + evaluationPeriod.toLowerCase()
-                  }
+                  value={lbbEvaluationDuration}
                 />
                 <label htmlFor="standardDeviations">Standard Deviations</label>
                 <input
@@ -301,7 +266,9 @@ export default function DatabaseModifyView({
           if (technicalIndicatorType === "UpperBollingerBand") {
             return (
               <div>
-                <label htmlFor="ubbEvaluationDuration">UBB Type</label>
+                <label htmlFor="ubbEvaluationDuration">
+                  UBB Evaluation Duration
+                </label>
                 <input
                   type="Text"
                   id="ubbEvaluationDuration"
@@ -309,21 +276,14 @@ export default function DatabaseModifyView({
                   className="form-control"
                   autoCapitalize="off"
                   onChange={(event) => {
-                    let x = event.target.value.substring(
-                      0,
-                      event.target.value.length - evaluationPeriod.length - 1
-                    );
-                    if (
-                      event.target.value.endsWith(
-                        "-" + evaluationPeriod.toLowerCase()
-                      )
-                    ) {
-                      manuallyInputChange("ubbEvaluationDuration", x);
+                    {
+                      manuallyInputChange(
+                        "ubbEvaluationDuration",
+                        event.target.value
+                      );
                     }
                   }}
-                  value={
-                    ubbEvaluationDuration + "-" + evaluationPeriod.toLowerCase()
-                  }
+                  value={ubbEvaluationDuration}
                 />
                 <label htmlFor="standardDeviations">Standard Deviations</label>
                 <input
